@@ -1,0 +1,2 @@
+- Use poetry
+- Use mypy
