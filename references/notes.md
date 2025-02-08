@@ -14,4 +14,4 @@
 
 ## Models
 
-Model that detects 17 keypoints on your body: <https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/movenet>
+Model that detects 17 keypoints on your body: <https://github.com/tensorflow/tfjs-models/tree/master/pose-detection/src/movenet>, <https://github.com/fire717/movenet.pytorch?tab=readme-ov-file>.
