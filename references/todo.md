@@ -7,12 +7,14 @@ This checklist covers the major tasks needed to build out the platform. You can 
 ## P1: Project Setup
 
 - [ ] **Backend Initialization**  
-  - [ ] Choice of the pose estimation model
+  - [x] Choice of the pose estimation model
   - [ ] Choice of the standard angles, heights, etc to recommend for the user
 
 - [ ] **Frontend Initialization**  
   - [ ] Initialize Svelte project
   - [ ] Dashboard to present results to the user after AI processing
+
+- [ ] By 01/05, MVP of the app.
 
 ## P2: Video Upload
 
