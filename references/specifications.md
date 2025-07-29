@@ -22,6 +22,9 @@ The platform aims to help athletes improve their biomechanics, starting with cyc
    - Display analyzed metrics and recommended adjustments.
    - Visual representation of the cyclist's pose and suggested changes.
 
+5. **User Interface**
+   - A really nice and minimalist UI. The pose estimation allows to create a visual representation of the cyclist. The current and optimized positions are showed side by side. The user can drag different key points (such as the position of the saddle, etc...) in order to visualize the changes in real-time.
+
 ## Detailed Requirements
 
 ### User Registration and Authentication
