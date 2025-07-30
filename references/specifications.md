@@ -70,6 +70,11 @@ The platform aims to help athletes improve their biomechanics, starting with cyc
 - **Visual Representation**
   - Overlay suggested pose adjustments on the original video
 
+## Overall style
+
+- Minimalistic.
+- Dark.
+
 ## Architecture Choices
 
 - **Frontend**
