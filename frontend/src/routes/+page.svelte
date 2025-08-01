@@ -1,4 +1,4 @@
-<!--Distinction between human body keypoints that can't be moved and bike keypoints that be dragged and moved. Human keypoints are the ankle, the knee, the hip, the elbow and the wrist. Bike keypoints are the saddle and the handlebar.-->
+<!--Distinction between human body keypoints that can't be moved and bike keypoints that be dragged and moved. Human keypoints are the ankle, the knee, the hip, the elbow and the wrist (bottom up). Bike keypoints are the saddle and the handlebar.-->
 <script lang="ts">
 	import { onMount } from 'svelte';
 
@@ -7,7 +7,6 @@
 
 	// Cyclist pose points (relative to canvas size)
 	let posePoints: { [key: string]: { x: number; y: number } } = {
-		head: { x: 0.3, y: 0.15 },
 		shoulder: { x: 0.35, y: 0.25 },
 		elbow: { x: 0.45, y: 0.3 },
 		hand: { x: 0.55, y: 0.35 },
@@ -134,12 +133,11 @@
 
         // Body segments - more natural cycling pose
         const segments = [
-            [points.head, points.shoulder], // Neck
-            [points.shoulder, points.elbow], // Upper arm
-            [points.elbow, points.hand], // Forearm to handlebar
-            [points.shoulder, points.hip], // Torso (leaning forward)
-            [points.hip, points.knee], // Thigh
-            [points.knee, points.ankle] // Shin/calf
+            [points.ankle, points.knee],
+            [points.knee, points.hip], 
+            [points.hip, points.shoulder], 
+            [points.shoulder, points.elbow], 
+            [points.elbow, points.hand], 
         ];
 
         segments.forEach(([start, end]) => {
@@ -148,12 +146,6 @@
             ctx.lineTo(end.x, end.y);
             ctx.stroke();
         });
-
-        // Draw head as a circle
-        ctx.fillStyle = '#e2e8f0';
-        ctx.beginPath();
-        ctx.arc(points.head.x, points.head.y, 8, 0, 2 * Math.PI);
-        ctx.fill();
 
         // Draw key points with clear distinction between human body and bike keypoints
         Object.entries(points).forEach(([key, point]) => {
@@ -192,13 +184,6 @@
                 strokeColor = 'rgba(100, 116, 139, 0.6)';
                 size = 6;
 
-                // Special styling for ankle since it's connected to pedal
-                if (key === 'ankle') {
-                    fillColor = '#8b5cf6'; // Purple to indicate it's connected
-                    strokeColor = 'rgba(139, 92, 246, 0.6)';
-                    size = 7;
-                }
-
                 if (hovering === key) {
                     fillColor = key === 'ankle' ? '#a78bfa' : '#94a3b8'; // Lighter color on hover
                     size = key === 'ankle' ? 9 : 8;
@@ -226,18 +211,9 @@
             ctx.arc(point.x, point.y, size, 0, 2 * Math.PI);
             ctx.stroke();
 
-            // Labels with different styling
-            if (hovering === key || isBikePoint) {
-                ctx.fillStyle = isBikePoint ? '#fbbf24' : (key === 'ankle' ? '#a78bfa' : '#94a3b8');
-                ctx.font = `bold ${isBikePoint ? '12px' : '10px'} system-ui`;
-                const label = isBikePoint ? `🔧 ${key.toUpperCase()}` : (key === 'ankle' ? `🔗 ${key}` : key);
-                ctx.fillText(label, point.x + 15, point.y - 10);
-            }
         });
 
-        // Draw angles - subtle
         drawAngle(points.hip, points.knee, points.ankle, 'knee');
-        drawAngle(points.shoulder, points.hip, points.knee, 'hip');
     }
 
 	function drawAngle(
@@ -381,7 +357,6 @@
 
 	function resetPose() {
 		posePoints = {
-			head: { x: 0.3, y: 0.15 },
 			shoulder: { x: 0.35, y: 0.25 },
 			elbow: { x: 0.45, y: 0.3 },
 			hand: { x: 0.55, y: 0.35 },
