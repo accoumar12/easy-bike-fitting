@@ -1,14 +1,17 @@
 import uuid
+from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from sqlmodel import func, select
+from yolo_pose.schemas.core import FramesData, KeypointLabel
 
 from app.api.deps import CurrentUser, SessionDep
 from app.models import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate, Message
 
 router = APIRouter(prefix="/items", tags=["items"])
 
+temp = KeypointLabel.RIGHT_ANKLE
 
 @router.get("/", response_model=ItemsPublic)
 def read_items(
@@ -41,11 +44,14 @@ def read_items(
     return ItemsPublic(data=items, count=count)
 
 
-@router.get("/{id}", response_model=ItemPublic)
+@router.get("/{id}", response_model=Any)
 def read_item(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
     """
     Get item by ID.
     """
+    item_file_path = Path("/home/maccou/perso/bike_fitting/repos/yolo_pose.git/work/exp/20250801-2247_sample_1/keypoints.json")
+    frames_data = FramesData.validate_json(item_file_path.read_bytes())
+    return frames_data
     item = session.get(Item, id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
