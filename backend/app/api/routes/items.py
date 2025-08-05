@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
+from pydantic import TypeAdapter
 from sqlmodel import func, select
 from yolo_pose.schemas.core import FramesData, KeypointLabel
 
@@ -44,13 +45,13 @@ def read_items(
     return ItemsPublic(data=items, count=count)
 
 
-@router.get("/{id}", response_model=Any)
+@router.get("/{id}", response_model=FramesData)
 def read_item(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
     """
     Get item by ID.
     """
     item_file_path = Path("/home/maccou/perso/bike_fitting/repos/yolo_pose.git/work/exp/20250801-2247_sample_1/keypoints.json")
-    frames_data = FramesData.validate_json(item_file_path.read_bytes())
+    frames_data = TypeAdapter(FramesData).validate_json(item_file_path.read_bytes())
     return frames_data
     item = session.get(Item, id)
     if not item:
